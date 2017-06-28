@@ -2,12 +2,15 @@ package com.codepath.apps.restclienttemplate.models;
 
 import android.text.format.DateUtils;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.Serializable;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 import java.util.Calendar;
 
@@ -68,5 +71,21 @@ public class Tweet implements Serializable {
             e.printStackTrace();
         }
         return time;
+    }
+
+    public static List<Tweet> fromJSONArray(JSONArray tweetsJson) {
+        ArrayList<Tweet> tweets = new ArrayList<>();
+        for (int i = 0; i < tweetsJson.length(); i++) {
+            // convert object to a Tweet
+            try {
+                Tweet tweet = Tweet.fromJSON(tweetsJson.getJSONObject(i));
+                // add Tweet to data source
+                tweets.add(tweet);
+                // notify adapter that new item is added
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+        return tweets;
     }
 }

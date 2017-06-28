@@ -5,6 +5,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.widget.TextView;
 
 import com.codepath.apps.restclienttemplate.models.Tweet;
 import com.codepath.apps.restclienttemplate.models.User;
@@ -18,13 +21,36 @@ import cz.msebera.android.httpclient.Header;
 public class ComposeActivity extends AppCompatActivity {
 
     TwitterClient client;
+    private TextView sms_count;
+    private EditText sms_message;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_compose);
         client = TwitterApp.getRestClient();
+
+        sms_count = (TextView) findViewById(R.id.tvCharCount);
+        sms_message = (EditText) findViewById(R.id.etTweet);
+
+        final TextWatcher txwatcher = new TextWatcher() {
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                sms_count.setText(String.valueOf(140 - s.length()));
+            }
+
+            public void afterTextChanged(Editable s) {
+            }
+        };
+
+        sms_message.addTextChangedListener(txwatcher);
+
     }
+
 
     public void postTweet(View view) {
         // get EditText by id

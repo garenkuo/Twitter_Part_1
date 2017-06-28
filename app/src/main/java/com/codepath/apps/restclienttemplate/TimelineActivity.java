@@ -59,10 +59,28 @@ public class TimelineActivity extends AppCompatActivity {
         swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                // Your code to refresh the list here.
-                // Make sure you call swipeContainer.setRefreshing(false)
-                // once the network request has completed successfully.
-                fetchTimelineAsync(0);
+                // Send the network request to fetch the updated data
+                // `client` here is an instance of Android Async HTTP
+                // getHomeTimeline is an example endpoint.
+
+                client.getHomeTimeline(new JsonHttpResponseHandler() {
+                    @Override
+                    public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
+                            // Remember to CLEAR OUT old items before appending in the new ones
+                        tweetAdapter.clear();
+                        // ...the data has come back, add new items to your adapter...
+                        tweetAdapter.addAll(Tweet.fromJSONArray(response));
+
+                        swipeContainer.setRefreshing(false);
+                    }
+
+                    @Override
+                    public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONArray errorResponse) {
+                        Log.d("TwitterClient", errorResponse.toString());
+                        throwable.printStackTrace();
+                    }
+                });
+
             }
         });
 

@@ -2,7 +2,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_margin = "5dp"
-    android:layout_width="match_parent" android:layout_height="wrap_content">
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
 
     <ImageView
         android:id="@+id/ivProfileImage"
@@ -18,6 +19,7 @@
         android:layout_height="wrap_content"
         android:text="TextView"
         android:layout_alignParentTop="true"
+        android:textColor="@color/black"
         android:layout_alignStart="@+id/tvBody" />
 
     <TextView
@@ -37,6 +39,7 @@
         android:layout_marginLeft="5dp"
         android:text="TextView"
         android:layout_alignParentTop="true"
+        android:textColor="@color/medium_gray"
         android:layout_toEndOf="@+id/tvName" />
 
     <TextView
@@ -44,7 +47,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="TextView"
-        android:layout_toEndOf="@+id/tvUserName"
-        android:layout_marginStart="5dp"
-        android:layout_alignParentTop="true" />
+        android:textColor="@color/medium_gray"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true" />
 </RelativeLayout>

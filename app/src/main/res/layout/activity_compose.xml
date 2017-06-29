@@ -9,8 +9,10 @@
         android:id="@+id/etTweet"
         android:layout_height="100dp"
         android:layout_width="match_parent"
-        android:layout_alignParentTop="true"
         android:hint="What's Happening?"
+        android:ellipsize="start"
+        android:gravity="top"
+        android:layout_alignParentTop="true"
         android:layout_alignParentStart="true">
     </EditText>
 

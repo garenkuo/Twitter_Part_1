@@ -5,6 +5,7 @@ import android.text.format.DateUtils;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.parceler.Parcel;
 
 import java.io.Serializable;
 import java.text.ParseException;
@@ -18,7 +19,8 @@ import java.util.Calendar;
  * Created by kcguo on 6/26/17.
  */
 
-public class Tweet implements Serializable {
+@Parcel
+public class Tweet {
 
     public String body;
     public long uid;

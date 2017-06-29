@@ -1,17 +1,17 @@
 package com.codepath.apps.restclienttemplate;
 
 import android.content.Intent;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.codepath.apps.restclienttemplate.models.EndlessRecyclerViewScrollListener;
 import com.codepath.apps.restclienttemplate.models.Tweet;
@@ -20,6 +20,7 @@ import com.loopj.android.http.JsonHttpResponseHandler;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.parceler.Parcels;
 
 import java.util.ArrayList;
 
@@ -37,6 +38,18 @@ public class TimelineActivity extends AppCompatActivity {
     // on some click or some loading we need to wait for...
 
     private EndlessRecyclerViewScrollListener scrollListener;
+
+    MenuItem miActionProgressItem;
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        // Store instance of the menu item containing progress
+        miActionProgressItem = menu.findItem(R.id.miActionProgress);
+        // Extract the action-view from the menu item
+        ProgressBar v =  (ProgressBar) MenuItemCompat.getActionView(miActionProgressItem);
+        // Return to finish
+        return super.onPrepareOptionsMenu(menu);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,16 +86,29 @@ public class TimelineActivity extends AppCompatActivity {
                 loadNextDataFromApi(page);
             }
         };
+
+        rvTweets.addOnScrollListener(scrollListener);
         // Lookup the swipe container view
         swipeContainer = (SwipeRefreshLayout) findViewById(R.id.swipeContainer);
         // Setup refresh listener which triggers new data loading
         swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+
+            public void showProgressBar() {
+                // Show progress item
+                miActionProgressItem.setVisible(true);
+            }
+
+            public void hideProgressBar() {
+                // Hide progress item
+                miActionProgressItem.setVisible(false);
+            }
+
             @Override
             public void onRefresh() {
                 // Send the network request to fetch the updated data
                 // `client` here is an instance of Android Async HTTP
                 // getHomeTimeline is an example endpoint.
-
+                showProgressBar();
                 client.getHomeTimeline(new JsonHttpResponseHandler() {
                     @Override
                     public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
@@ -92,12 +118,14 @@ public class TimelineActivity extends AppCompatActivity {
                         tweetAdapter.addAll(Tweet.fromJSONArray(response));
 
                         swipeContainer.setRefreshing(false);
+                        hideProgressBar();
                     }
 
                     @Override
                     public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONArray errorResponse) {
                         Log.d("TwitterClient", errorResponse.toString());
                         throwable.printStackTrace();
+                        hideProgressBar();
                     }
                 });
 
@@ -108,7 +136,7 @@ public class TimelineActivity extends AppCompatActivity {
 
 
     public void loadNextDataFromApi(int offset) {
-        // TODO - Send an API request to retrieve appropriate paginated data
+        Toast.makeText(this, "Loading Tweets", Toast.LENGTH_LONG).show();
         //  --> Send the request including an offset value (i.e `page`) as a query parameter.
         //  --> Deserialize and construct new model objects from the API response
         //  --> Append the new data objects to the existing set of items inside the array of items
@@ -134,7 +162,8 @@ public class TimelineActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         // add new tweet to list
         if (resultCode == RESULT_OK && requestCode == REQUEST_CODE) {
-            Tweet tweet = (Tweet) data.getSerializableExtra("tweet");
+            //Tweet tweet = (Tweet) data.getSerializableExtra("tweet");
+            Tweet tweet = Parcels.unwrap(data.getParcelableExtra("tweet"));
             tweets.add(0, tweet);
             tweetAdapter.notifyItemInserted(0);
             rvTweets.scrollToPosition(0);

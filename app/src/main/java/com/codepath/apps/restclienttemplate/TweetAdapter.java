@@ -19,6 +19,8 @@ import org.w3c.dom.Text;
 
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
 
 /**
@@ -65,20 +67,15 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> 
     // create ViewHolder class
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        public ImageView ivProfileImage;
-        public TextView tvName;
-        public TextView tvUserName;
-        public TextView tvBody;
-        public TextView tvTimeStamp;
+        @BindView(R.id.ivProfileImage) ImageView ivProfileImage;
+        @BindView(R.id.tvName) TextView tvName;
+        @BindView(R.id.tvUserName) TextView tvUserName;
+        @BindView(R.id.tvBody) TextView tvBody;
+        @BindView(R.id.tvTimeStamp) TextView tvTimeStamp;
 
         public ViewHolder(View itemView) {
             super(itemView);
-
-            ivProfileImage = (ImageView) itemView.findViewById(R.id.ivProfileImage);
-            tvName = (TextView) itemView.findViewById(R.id.tvName);
-            tvUserName = (TextView) itemView.findViewById(R.id.tvUserName);
-            tvBody = (TextView) itemView.findViewById(R.id.tvBody);
-            tvTimeStamp = (TextView) itemView.findViewById(R.id.tvTimeStamp);
+            ButterKnife.bind(this, itemView);
         }
     }
 
@@ -194,6 +191,7 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> 
             this.previousTotalItemCount = 0;
             this.loading = true;
         }
+
 
         // Defines the process for actually loading more data based on page
         public abstract void onLoadMore(int page, int totalItemsCount, RecyclerView view);

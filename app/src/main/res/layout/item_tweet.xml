@@ -55,4 +55,40 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true" />
 
+    <ImageButton
+        android:id="@+id/imageButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@null"
+        app:srcCompat="@drawable/ic_vector_reply"
+        android:layout_marginRight="60dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="12dp"
+        android:layout_below="@+id/tvBody"
+        android:layout_alignStart="@+id/tvBody" />
+
+    <ImageButton
+        android:id="@+id/imageButton2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@null"
+        android:layout_marginRight="60dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="12dp"
+        app:srcCompat="@drawable/ic_vector_retweet"
+        android:layout_below="@+id/tvBody"
+        android:layout_toEndOf="@+id/imageButton" />
+
+    <ImageButton
+        android:id="@+id/imageButton3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tvBody"
+        android:layout_marginRight="40dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="12dp"
+        android:background="@null"
+        android:layout_toEndOf="@+id/imageButton2"
+        app:srcCompat="@drawable/ic_vector_heart" />
+
 </RelativeLayout>

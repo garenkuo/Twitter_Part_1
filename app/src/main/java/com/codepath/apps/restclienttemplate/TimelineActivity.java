@@ -27,6 +27,8 @@ import org.parceler.Parcels;
 import java.util.ArrayList;
 
 import cz.msebera.android.httpclient.Header;
+import fragments.HomeTimelineFragment;
+import fragments.SmartFragmentStatePagerAdapter;
 import fragments.TweetsListFragment;
 import fragments.TweetsPagerAdapter;
 
@@ -57,6 +59,9 @@ public class TimelineActivity extends AppCompatActivity {
         return true;
     }*/
 
+
+    TweetsPagerAdapter adapterViewPager;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -65,7 +70,8 @@ public class TimelineActivity extends AppCompatActivity {
         setContentView(R.layout.activity_timeline);
 
         ViewPager vpPager = (ViewPager) findViewById(R.id.viewpager);
-        vpPager.setAdapter(new TweetsPagerAdapter(getSupportFragmentManager(), this));
+        adapterViewPager = new TweetsPagerAdapter(getSupportFragmentManager(), this);
+        vpPager.setAdapter(adapterViewPager);
         TabLayout tabLayout = (TabLayout) findViewById(R.id.sliding_tabs);
         tabLayout.setupWithViewPager(vpPager);
         /*ProgressBar pb = (ProgressBar) findViewById(R.id.pbLoading);
@@ -166,17 +172,14 @@ public class TimelineActivity extends AppCompatActivity {
         
     }
 
-    /*@Override
+    @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        // add new tweet to list
-        if (resultCode == RESULT_OK && requestCode == REQUEST_CODE) {
-            //Tweet tweet = (Tweet) data.getSerializableExtra("tweet");
-            Tweet tweet = Parcels.unwrap(data.getParcelableExtra("tweet"));
-            tweets.add(0, tweet);
-            tweetAdapter.notifyItemInserted(0);
-            rvTweets.scrollToPosition(0);
-        }
-    }*/
+
+        Tweet tweet = Parcels.unwrap(data.getParcelableExtra("tweet"));
+        HomeTimelineFragment fragmentHomeTweets =
+                (HomeTimelineFragment) adapterViewPager.getRegisteredFragment(0);
+        fragmentHomeTweets.appendTweet(tweet);
+    }
 
 
 }

@@ -9,7 +9,7 @@ import android.support.v4.app.FragmentPagerAdapter;
  * Created by kcguo on 7/4/17.
  */
 
-public class TweetsPagerAdapter extends FragmentPagerAdapter {
+public class TweetsPagerAdapter extends SmartFragmentStatePagerAdapter {
 
     private String tabTitles[] = new String[] {"Home", "Mentions"};
     private Context context;

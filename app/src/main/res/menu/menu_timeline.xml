@@ -4,6 +4,7 @@
         android:id="@+id/miProfile"
         android:title="Item"
         app:showAsAction="ifRoom"
+        android:onClick="onProfileView"
         android:icon="@drawable/ic_vector_person"/>
     <item
         android:id="@+id/miCompose"

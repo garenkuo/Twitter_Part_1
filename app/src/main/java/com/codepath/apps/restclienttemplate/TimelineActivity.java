@@ -51,6 +51,12 @@ public class TimelineActivity extends AppCompatActivity {
         return super.onPrepareOptionsMenu(menu);
     }*/
 
+    /*@Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_timeline, menu);
+        return true;
+    }*/
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -129,15 +135,15 @@ public class TimelineActivity extends AppCompatActivity {
     }
 
 
-    public void loadNextDataFromApi(int offset) {
+    /*public void loadNextDataFromApi(int offset) {
         Toast.makeText(this, "Loading Tweets", Toast.LENGTH_LONG).show();
         //  --> Send the request including an offset value (i.e `page`) as a query parameter.
         //  --> Deserialize and construct new model objects from the API response
         //  --> Append the new data objects to the existing set of items inside the array of items
         //  --> Notify the adapter of the new items made with `notifyItemRangeInserted()`
-    }
+    }*/
 
-    /*@Override
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_timeline, menu);
@@ -152,7 +158,15 @@ public class TimelineActivity extends AppCompatActivity {
         startActivityForResult(i, REQUEST_CODE);
     }
 
-    @Override
+    public void onProfileView(MenuItem item) {
+        //launch profile view
+        Intent i = new Intent(this, ProfileActivity.class);
+        startActivity(i);
+
+        
+    }
+
+    /*@Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         // add new tweet to list
         if (resultCode == RESULT_OK && requestCode == REQUEST_CODE) {

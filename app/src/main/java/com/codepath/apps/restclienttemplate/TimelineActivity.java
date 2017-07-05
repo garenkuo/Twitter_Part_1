@@ -1,7 +1,9 @@
 package com.codepath.apps.restclienttemplate;
 
 import android.content.Intent;
+import android.support.design.widget.TabLayout;
 import android.support.v4.view.MenuItemCompat;
+import android.support.v4.view.ViewPager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -25,23 +27,21 @@ import org.parceler.Parcels;
 import java.util.ArrayList;
 
 import cz.msebera.android.httpclient.Header;
+import fragments.TweetsListFragment;
+import fragments.TweetsPagerAdapter;
 
 public class TimelineActivity extends AppCompatActivity {
 
-    TwitterClient client;
-
-    TweetAdapter tweetAdapter;
-    ArrayList<Tweet> tweets;
-    RecyclerView rvTweets;
-    private SwipeRefreshLayout swipeContainer;
 
     // on some click or some loading we need to wait for...
 
+    /*private SwipeRefreshLayout swipeContainer;
+
     private EndlessRecyclerViewScrollListener scrollListener;
 
-    MenuItem miActionProgressItem;
+    MenuItem miActionProgressItem;*/
 
-    @Override
+    /*@Override
     public boolean onPrepareOptionsMenu(Menu menu) {
         // Store instance of the menu item containing progress
         miActionProgressItem = menu.findItem(R.id.miActionProgress);
@@ -49,7 +49,7 @@ public class TimelineActivity extends AppCompatActivity {
         ProgressBar v =  (ProgressBar) MenuItemCompat.getActionView(miActionProgressItem);
         // Return to finish
         return super.onPrepareOptionsMenu(menu);
-    }
+    }*/
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,27 +58,21 @@ public class TimelineActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_timeline);
 
-        ProgressBar pb = (ProgressBar) findViewById(R.id.pbLoading);
+        ViewPager vpPager = (ViewPager) findViewById(R.id.viewpager);
+        vpPager.setAdapter(new TweetsPagerAdapter(getSupportFragmentManager(), this));
+        TabLayout tabLayout = (TabLayout) findViewById(R.id.sliding_tabs);
+        tabLayout.setupWithViewPager(vpPager);
+        /*ProgressBar pb = (ProgressBar) findViewById(R.id.pbLoading);
         pb.setVisibility(ProgressBar.VISIBLE);
         // run a background job and once complete
-        pb.setVisibility(ProgressBar.INVISIBLE);
+        pb.setVisibility(ProgressBar.INVISIBLE);*/
         // Store a member variable for the listener
+        /*LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);*/
 
-        client = TwitterApp.getRestClient();
 
-        // find RecyclerView
-        rvTweets = (RecyclerView) findViewById(R.id.rvTweet);
-        // init arraylist
-        tweets = new ArrayList<>();
-        // construct adapter from datasource
-        tweetAdapter = new TweetAdapter(tweets);
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
-        // RecyclerView setup
-        rvTweets.setLayoutManager(linearLayoutManager);
-        // set adapter
-        rvTweets.setAdapter(tweetAdapter);
-        populateTimeline();
-        scrollListener = new EndlessRecyclerViewScrollListener(linearLayoutManager) {
+
+
+        /*scrollListener = new EndlessRecyclerViewScrollListener(linearLayoutManager) {
             @Override
             public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
                 // Triggered only when new data needs to be appended to the list
@@ -112,7 +106,7 @@ public class TimelineActivity extends AppCompatActivity {
                 client.getHomeTimeline(new JsonHttpResponseHandler() {
                     @Override
                     public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
-                            // Remember to CLEAR OUT old items before appending in the new ones
+                        // Remember to CLEAR OUT old items before appending in the new ones
                         tweetAdapter.clear();
                         // ...the data has come back, add new items to your adapter...
                         tweetAdapter.addAll(Tweet.fromJSONArray(response));
@@ -130,7 +124,7 @@ public class TimelineActivity extends AppCompatActivity {
                 });
 
             }
-        });
+        });*/
 
     }
 
@@ -143,7 +137,7 @@ public class TimelineActivity extends AppCompatActivity {
         //  --> Notify the adapter of the new items made with `notifyItemRangeInserted()`
     }
 
-    @Override
+    /*@Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_timeline, menu);
@@ -168,52 +162,7 @@ public class TimelineActivity extends AppCompatActivity {
             tweetAdapter.notifyItemInserted(0);
             rvTweets.scrollToPosition(0);
         }
-    }
+    }*/
 
-    private void populateTimeline() {
-        client.getHomeTimeline(new JsonHttpResponseHandler() {
-            @Override
-            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                Log.d("TwitterClient", response.toString());
-            }
 
-            @Override
-            public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
-                Log.d("TwitterClient", response.toString());
-                // iterate through array and deserialize JSON object
-                for (int i = 0; i < response.length(); i++) {
-                    // convert object to a Tweet
-                    try {
-                        Tweet tweet = Tweet.fromJSON(response.getJSONObject(i));
-                        // add Tweet to data source
-                        tweets.add(tweet);
-                        // notify adapter that new item is added
-
-                        tweetAdapter.notifyItemInserted(tweets.size() - 1);
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                }
-
-            }
-
-            @Override
-            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-                Log.d("TwitterClient", responseString);
-                throwable.printStackTrace();
-            }
-
-            @Override
-            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
-                Log.d("TwitterClient", errorResponse.toString());
-                throwable.printStackTrace();
-            }
-
-            @Override
-            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONArray errorResponse) {
-                Log.d("TwitterClient", errorResponse.toString());
-                throwable.printStackTrace();
-            }
-        });
-    }
 }

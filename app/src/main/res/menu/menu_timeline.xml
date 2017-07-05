@@ -1,6 +1,11 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
+        android:id="@+id/miProfile"
+        android:title="Item"
+        app:showAsAction="ifRoom"
+        android:icon="@drawable/ic_vector_person"/>
+    <item
         android:id="@+id/miCompose"
         android:icon="@drawable/ic_vector_compose"
         android:onClick="onComposeAction"
@@ -9,6 +14,7 @@
 
 
     </item>
+
     <item
         android:id="@+id/miActionProgress"
         android:title="Loading..."

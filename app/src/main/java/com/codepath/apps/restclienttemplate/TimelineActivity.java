@@ -61,6 +61,7 @@ public class TimelineActivity extends AppCompatActivity {
 
 
     TweetsPagerAdapter adapterViewPager;
+    ViewPager vpPager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,7 +70,7 @@ public class TimelineActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_timeline);
 
-        ViewPager vpPager = (ViewPager) findViewById(R.id.viewpager);
+        vpPager = (ViewPager) findViewById(R.id.viewpager);
         adapterViewPager = new TweetsPagerAdapter(getSupportFragmentManager(), this);
         vpPager.setAdapter(adapterViewPager);
         TabLayout tabLayout = (TabLayout) findViewById(R.id.sliding_tabs);
@@ -160,12 +161,11 @@ public class TimelineActivity extends AppCompatActivity {
 
     public void onComposeAction(MenuItem mi) {
         Intent i = new Intent(this, ComposeActivity.class);
-        i.putExtra("mode", 2); // pass arbitrary data to launched activity
+        //i.putExtra("mode", 2); // pass arbitrary data to launched activity
         startActivityForResult(i, REQUEST_CODE);
     }
 
     public void onProfileView(MenuItem item) {
-        //launch profile view
         Intent i = new Intent(this, ProfileActivity.class);
         startActivity(i);
 
@@ -174,11 +174,13 @@ public class TimelineActivity extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-
-        Tweet tweet = Parcels.unwrap(data.getParcelableExtra("tweet"));
-        HomeTimelineFragment fragmentHomeTweets =
-                (HomeTimelineFragment) adapterViewPager.getRegisteredFragment(0);
-        fragmentHomeTweets.appendTweet(tweet);
+        if (resultCode == RESULT_OK && requestCode == REQUEST_CODE) {
+            Tweet tweet = Parcels.unwrap(data.getParcelableExtra("tweet"));
+            HomeTimelineFragment fragmentHomeTweets =
+                    (HomeTimelineFragment) adapterViewPager.getRegisteredFragment(0);
+            fragmentHomeTweets.appendTweet(tweet);
+            vpPager.setCurrentItem(0);
+        }
     }
 
 

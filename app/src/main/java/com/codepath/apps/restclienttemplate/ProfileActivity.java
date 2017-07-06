@@ -15,6 +15,7 @@ import org.json.JSONObject;
 
 import cz.msebera.android.httpclient.Header;
 import fragments.UserTimelineFragment;
+import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
 
 public class ProfileActivity extends AppCompatActivity {
 
@@ -74,13 +75,21 @@ public class ProfileActivity extends AppCompatActivity {
         TextView tvFollowing = (TextView) findViewById(R.id.tvFollowing);
 
         ImageView ivProfileImage = (ImageView) findViewById(R.id.ivProfileImage);
+        ImageView ivBackgroundImage = (ImageView) findViewById(R.id.ivBackgroundImage);
         tvName.setText(user.name);
 
         tvTagline.setText(user.tagLine);
         tvFollowers.setText(user.followersCount + "");
         tvFollowing.setText(user.followingCount + "");
 
-        Glide.with(this).load(user.profileImageUrl).into(ivProfileImage);
+        Glide.with(this)
+                .load(user.profileImageUrl)
+                .bitmapTransform(new RoundedCornersTransformation(this, 5, 0))
+                .into(ivProfileImage);
 
+        Glide.with(this)
+                .load(user.backgroundImageUrl)
+                .centerCrop()
+                .into(ivBackgroundImage);
     }
 }

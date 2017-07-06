@@ -87,8 +87,6 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> 
                 }
             });
         }
-
-
     }
 
     // get number of tweets

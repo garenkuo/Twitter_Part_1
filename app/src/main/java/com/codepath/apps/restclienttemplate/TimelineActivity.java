@@ -30,8 +30,6 @@ import fragments.TweetsPagerAdapter;
 
 public class TimelineActivity extends AppCompatActivity {
 
-
-
     TweetsPagerAdapter adapterViewPager;
     ViewPager vpPager;
 

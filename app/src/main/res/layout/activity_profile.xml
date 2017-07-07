@@ -32,7 +32,7 @@
             android:layout_marginRight="10dp"
             android:layout_marginLeft="10dp"
             android:layout_marginBottom="10dp"
-            android:layout_marginTop="50dp"
+            android:layout_marginTop="65dp"
             />
 
         <TextView
@@ -54,7 +54,7 @@
             android:layout_alignStart="@+id/tvName"
             android:lineSpacingExtra="5dp"
             android:text="TagLine"
-            android:textSize="15sp"/>
+            android:textSize="13sp"/>
 
     </RelativeLayout>
 

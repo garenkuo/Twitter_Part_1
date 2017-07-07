@@ -4,15 +4,11 @@ import android.content.Intent;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.view.ViewPager;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.codepath.apps.restclienttemplate.models.EndlessRecyclerViewScrollListener;
@@ -34,30 +30,6 @@ import fragments.TweetsPagerAdapter;
 
 public class TimelineActivity extends AppCompatActivity {
 
-
-    // on some click or some loading we need to wait for...
-
-    /*private SwipeRefreshLayout swipeContainer;
-
-    private EndlessRecyclerViewScrollListener scrollListener;
-
-    MenuItem miActionProgressItem;*/
-
-    /*@Override
-    public boolean onPrepareOptionsMenu(Menu menu) {
-        // Store instance of the menu item containing progress
-        miActionProgressItem = menu.findItem(R.id.miActionProgress);
-        // Extract the action-view from the menu item
-        ProgressBar v =  (ProgressBar) MenuItemCompat.getActionView(miActionProgressItem);
-        // Return to finish
-        return super.onPrepareOptionsMenu(menu);
-    }*/
-
-    /*@Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_timeline, menu);
-        return true;
-    }*/
 
 
     TweetsPagerAdapter adapterViewPager;
